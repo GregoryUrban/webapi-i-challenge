@@ -12,26 +12,26 @@ Use Node.js and Express to build an API that performs CRUD operations on users.
 
 ### Download Project Files and Install Dependencies
 
-- **Fork** and **Clone** this repository.
-- **CD into the folder** where you cloned the repository.
-- Type `yarn` or `npm install` to download all dependencies listed inside `package.json`.
+- [x] **Fork** and **Clone** this repository.
+- [x] **CD into the folder** where you cloned the repository.
+- [x] Type `yarn` or `npm install` to download all dependencies listed inside `package.json`.
 
 ### Database access
 
 Database access will be done using the `db.js` file included inside the `data` folder. This file publishes the following methods:
 
-- `find()`: calling find returns a promise that resolves to an array of all the users contained in the database.
-- `findById()`: this method expects an `id` as it's only parameter and returns the user corresponding to the `id` provided or an empty array if no user with that `id` is found.
-- `insert()`: calling insert passing it a user object will add it to the database and return an object with the `id` of the inserted user. The object looks like this: `{ id: 123 }`.
-- `update()`: accepts two arguments, the first is the `id` of the user to update and the second is an object with the `changes` to apply. It returns the count of updated records. If the count is 1 it means the record was updated correctly.
-- `remove()`: the remove method accepts an `id` as it's first parameter and upon successfully deleting the user from the database it returns the number of records deleted.
+- [x] `find()`: calling find returns a promise that resolves to an array of all the users contained in the database.
+- [x] `findById()`: this method expects an `id` as it's only parameter and returns the user corresponding to the `id` provided or an empty array if no user with that `id` is found.
+- [x] `insert()`: calling insert passing it a user object will add it to the database and return an object with the `id` of the inserted user. The object looks like this: `{ id: 123 }`.
+- [x] `update()`: accepts two arguments, the first is the `id` of the user to update and the second is an object with the `changes` to apply. It returns the count of updated records. If the count is 1 it means the record was updated correctly.
+- [x] `remove()`: the remove method accepts an `id` as it's first parameter and upon successfully deleting the user from the database it returns the number of records deleted.
 
 Now that we have a way to add, update, remove and retrieve data from the provided database, it is time to work on the API.
 
 ### Start the API and Implement Requirements
 
-- To start the server, type `yarn server` or `npm run server` from the root folder (where the _package.json_ file is). The server is configured to restart automatically as you make changes.
-- Add the code necessary to implement the API requirements.
+- [x] To start the server, type `yarn server` or `npm run server` from the root folder (where the _package.json_ file is). The server is configured to restart automatically as you make changes.
+- [] Add the code necessary to implement the API requirements.
 - **Test the API using _Postman_ as you work through the exercises.**
 
 ### User Schema

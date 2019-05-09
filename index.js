@@ -1,23 +1,57 @@
 // implement your API here
 
 // require the express npm module, needs to be added to the project using "yarn add" or "npm install"
-const express = require('express'); // rewquire ONLY works within node
+const express = require('express'); // require ONLY works within node
 
-// creates an express application using the express module
+// create an express application using the express module
+const db = require('./data/db.js');
 const server = express();
 
-// Endpouint
-// configures our server to execute a function for every GET request to "/"
-// the second argument passed to the .get() method is the "Route Handler Function"
-// the route handler function will run on every GET request to "/"
+const PORT = 9090;
+
+
+//middleware
+server.use(express.json());
+
+// Endpoints
+
 server.get('/', (req, res) => {
-  // express will pass the request and response objects to this function
-  // the .send() on the response object can be used to send a response to the client
-
-
-  res.send('<h2>Hello World</h2>');
+  res.json({ message: 'request recieved'});
 });
 
-// once the server is fully configured we can have it "listen" for connections on a particular "port"
-// the callback function passed as the second argument will run once when the server starts
-server.listen(9090, () => console.log('API running on port 9090'));
+// Show all Users find()
+server.get('/api/users', (req, res) => {
+  db.find()
+  .then((users) => {
+      res.json(users); 
+  })
+  .catch(err => {
+    res
+      .status(500)
+      .json({ error: "The users information could not be retrieved." });
+  });
+}) 
+
+// Show one User findById()
+
+server.get('/api/users/:id', (req, res)  => {
+  const { id } = req.params;
+  db.findById(id)
+  .then(user => {
+    if (user) {
+      res.json(user);
+    } else {
+      res
+        .status(404)
+        .json({ message: "The user with the specified ID does not exist."});
+    }
+
+  })
+  .catch(err => {
+    res
+    .status(500)
+    .json({ message: "Failed to get user" });
+  });
+}) 
+
+server.listen(PORT, () => console.log(`API running on port ${PORT} son`));
