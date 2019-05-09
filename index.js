@@ -6,11 +6,12 @@ const express = require('express'); // require ONLY works within node
 // create an express application using the express module
 const db = require('./data/db.js');
 const server = express();
+const { users } = db;
 
 const PORT = 9090;
 
 
-//middleware
+//middleware to see whats on body
 server.use(express.json());
 
 // Endpoints
@@ -53,5 +54,34 @@ server.get('/api/users/:id', (req, res)  => {
     .json({ message: "Failed to get user" });
   });
 }) 
+
+//create
+server.post("/api/users",(req,res)=>{
+  const user=req.body;
+  if(user.name && user.bio){
+      res.status(201).json(user);
+   } else {
+       res
+       .status(400)
+       .json({ errorMessage:"Please provide name and bio for the user." })
+       return;
+     }   
+       db
+  .insert(user)
+  .then( user => {
+      console.log("New User",user);
+      res
+      .status(201)
+      .json(user);
+    })
+  .catch( err => {
+      res
+      .status(500)
+      .json({error: "There was an error while saving the user to the database" })
+
+  })
+
+
+})
 
 server.listen(PORT, () => console.log(`API running on port ${PORT} son`));
