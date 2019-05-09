@@ -58,30 +58,52 @@ server.get('/api/users/:id', (req, res)  => {
 //create
 server.post("/api/users",(req,res)=>{
   const user=req.body;
-  if(user.name && user.bio){
-      res.status(201).json(user);
-   } else {
-       res
+  
+  if(!user.name || !user.bio) {
+    res
        .status(400)
        .json({ errorMessage:"Please provide name and bio for the user." })
-       return;
-     }   
-       db
-  .insert(user)
-  .then( user => {
-      console.log("New User",user);
-      res
-      .status(201)
-      .json(user);
+  } else {
+    db
+    .insert(user)
+    .then( user => {
+        console.log("New User",user);
+        res
+        .status(201)
+        .json(user);
+      })
+    .catch( err => {
+        res
+        .status(500)
+        .json({error: "There was an error while saving the user to the database" })
+  
     })
-  .catch( err => {
-      res
-      .status(500)
-      .json({error: "There was an error while saving the user to the database" })
-
-  })
-
-
+  }
 })
+
+server.delete("/api/users/:id",(req,res)=>{
+  const id= req.params.id;
+  db.remove(id)
+  .then(user=>{
+       if(user){
+          console.log("Deleted ID: ",user)
+          res.json(user)
+       } else{
+          res
+          .status(404)
+          .json({message: "The user with the specified ID does not exist." })
+       }
+   })
+
+   .catch(err=>{
+    res
+    .status(500)
+    .json({message: "The user could not be removed"})
+
+
+   })
+})
+
+
 
 server.listen(PORT, () => console.log(`API running on port ${PORT} son`));
