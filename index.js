@@ -81,6 +81,7 @@ server.post("/api/users",(req,res)=>{
   }
 })
 
+// Remove/ delete
 server.delete("/api/users/:id",(req,res)=>{
   const id= req.params.id;
   db.remove(id)
@@ -94,16 +95,52 @@ server.delete("/api/users/:id",(req,res)=>{
           .json({message: "The user with the specified ID does not exist." })
        }
    })
-
-   .catch(err=>{
+  .catch(err=>{
     res
     .status(500)
     .json({message: "The user could not be removed"})
-
-
    })
 })
 
+// Update/ PUT
 
+server.put('/api/users/:id', (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  db.update(id, changes)
+  .then(updatedUsers => {
+      if (updatedUsers) {
+          res.json(updatedUsers);
+      }   else {
+          res.status(404).json({ err: 'incorrect id'})
+      }
+  })
+  .catch(({ code, message}) => {
+      res.status(code).json({err: message})
+      });
+      
+
+      // if(!user.name || !user.bio) {
+      //   res
+      //      .status(400)
+      //      .json({ errorMessage:"Please provide name and bio for the user." })
+      // } else {
+      //   db
+      //   .update(id, changes)
+      //   .then( update => {
+      //       console.log("Updated User",user);
+      //       res
+      //       .status(201)
+      //       .json(update);
+      //     })
+      //   .catch( err => {
+      //       res
+      //       .status(500)
+      //       .json({error: "There was an error while saving the user to the database" })
+      
+      //   })
+      // }
+})
 
 server.listen(PORT, () => console.log(`API running on port ${PORT} son`));
